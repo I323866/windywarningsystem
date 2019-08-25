@@ -1,8 +1,7 @@
-<template>
+<template id="windrose1">
   <highcharts :options="options"></highcharts>
 </template>
 <script>
-import Chart from "../../components/Chart";
 import highchartsMore from "highcharts/highcharts-more";
 var windDirection, windSpeed, windDirectionJSON, windSpeedJSON, windDataJSON;
 windDirection = "[202,229,218,208,230,202,205,213,223,227,239,250,237,240,248]";
@@ -45,11 +44,8 @@ var options = {
     type: "column"
   },
   title: {
-    text: "老婆大天才"
-  },
-  subtitle: {
-    text: "123"
-  },
+    text: "跑道1"
+  }, 
   pane: {
     size: "85%"
   },
@@ -106,9 +102,6 @@ export default {
     return {
       options: options
     };
-  },
-  components: {
-    Chart
   }
 };
 </script>
