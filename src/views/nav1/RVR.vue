@@ -5,7 +5,7 @@
         <div class="grid-content">
           <div style="height:100%;width:100%">
             <div class="grid-content">
-              <el-input placeholder></el-input>
+              <windrose></windrose>
             </div>
             <div class="grid-content">
               <el-input placeholder></el-input>
@@ -27,12 +27,12 @@
               <el-form-item>
                 <el-input v-model="filters.name" placeholder="姓名"></el-input>
               </el-form-item>
-              <el-form-item>
+              <!-- <el-form-item>
                 <el-button type="primary" v-on:click="getUsers">查询</el-button>
-              </el-form-item>
-              <el-form-item>
+              </el-form-item>-->
+              <!-- <el-form-item>
                 <el-button type="primary" @click="handleAdd">新增</el-button>
-              </el-form-item>
+              </el-form-item>-->
             </el-form>
           </el-col>
 
@@ -41,13 +41,11 @@
             :data="users"
             highlight-current-row
             v-loading="listLoading"
-            @selection-change="selsChange"
             style="width: 100% height: 100%;"
-			
           >
             <el-table-column type="selection" width="55"></el-table-column>
             <el-table-column type="index" width="60"></el-table-column>
-            <el-table-column prop="name" label="姓名" width="120" ></el-table-column>
+            <el-table-column prop="name" label="姓名" width="120"></el-table-column>
           </el-table>
         </div>
       </el-col>
@@ -56,6 +54,8 @@
 </template>
 
 <script>
+import { getUserListPage } from "../../api/api";
+import windrose from '../../components/windrose'
 export default {
   data() {
     return {
@@ -78,7 +78,25 @@ export default {
   methods: {
     onSubmit() {
       console.log("submit!");
+    },
+    //获取用户列表
+    getUsers() {
+      let para = {
+        page: this.page,
+        name: this.filters.name
+      };
+      this.listLoading = true;
+      //NProgress.start();
+      getUserListPage(para).then(res => {
+        this.total = res.data.total;
+        this.users = res.data.users;
+        this.listLoading = false;
+        //NProgress.done();
+      });
     }
+  },
+  mounted() {
+    this.getUsers();
   }
 };
 </script>

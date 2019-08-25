@@ -10,7 +10,9 @@ import Page5 from './views/nav2/Page5.vue'
 import Page6 from './views/nav3/Page6.vue'
 import echarts from './views/charts/echarts.vue'
 import rvr from './views/nav1/rvr.vue'
-
+import windrose from './views/charts/windrose.vue'
+import windrose1 from './views/charts/windrose1.vue'
+import windrose2 from './views/charts/windrose2.vue'
 let routes = [
     {
         path: '/login',
@@ -64,7 +66,10 @@ let routes = [
         name: 'Charts',
         iconCls: 'fa fa-bar-chart',
         children: [
-            { path: '/echarts', component: echarts, name: 'echarts' }
+            { path: '/echarts', component: echarts, name: 'echarts' },
+            { path: '/windrose1', component: windrose1, name: 'windrose1' },
+            { path: '/windrose2', component: windrose2, name: 'windrose2' },
+            { path: '/windrose', component: windrose, name: 'windrose' }
         ]
     },
     {
