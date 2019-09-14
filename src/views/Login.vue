@@ -23,7 +23,7 @@
       return {
         logining: false,
         ruleForm2: {
-          account: 'admin',
+          account: 'hqyb',
           checkPass: '123456'
         },
         rules2: {
@@ -62,7 +62,7 @@
                 });
               } else {
                 sessionStorage.setItem('user', JSON.stringify(user));
-                this.$router.push({ path: '/table' });
+                this.$router.push({ path: '/monitor' });
               }
             });
           } else {
