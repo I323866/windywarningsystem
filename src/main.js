@@ -4,6 +4,8 @@ import App from './App'
 import ElementUI from 'element-ui'
 import HighchartsVue from 'highcharts-vue'
 import 'element-ui/lib/theme-default/index.css'
+import axios from 'axios'
+import VueAxios from 'vue-axios'
 //import './assets/theme/theme-green/index.css'
 import VueRouter from 'vue-router'
 import store from './vuex/store'
@@ -11,15 +13,17 @@ import Vuex from 'vuex'
 //import NProgress from 'nprogress'
 //import 'nprogress/nprogress.css'
 import routes from './routes'
-import Mock from './mock'
-Mock.bootstrap();
+// import Mock from './mock'
+// Mock.bootstrap();
 import 'font-awesome/css/font-awesome.min.css'
 
 Vue.use(ElementUI)
 Vue.use(VueRouter)
 Vue.use(Vuex)
 Vue.use(HighchartsVue)
-
+axios.defaults.baseURL = 'http://localhost:3000/api/';
+Vue.prototype.$axios = axios
+Vue.use(VueAxios,axios);
 //NProgress.configure({ showSpinner: false });
 
 const router = new VueRouter({

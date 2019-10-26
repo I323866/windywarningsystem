@@ -19,6 +19,7 @@
     "nprogress": "^0.2.0",
     "vue": "^2.2.2",
     "vue-audio": "0.0.12",
+    "vue-axios": "^2.1.5",
     "vue-router": "^2.3.0",
     "vuex": "^2.0.0-rc.6"
   },

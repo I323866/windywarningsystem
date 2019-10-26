@@ -153,6 +153,7 @@
 
 <script>
 import { getUserListPage } from "../../api/api";
+import { getdata } from "../../api/api";
 import windrose1 from "../../components/windrose1";
 import windrose2 from "../../components/windrose2";
 import windrose3 from "../../components/windrose3";
@@ -194,18 +195,74 @@ export default {
         name: this.filters.name
       };
       this.listLoading = true;
+      this.getPKG()
       //NProgress.start();
-      getUserListPage(para).then(res => {
-        this.total = res.data.total;
-        this.users = res.data.users;
-        this.users.forEach((data) => {
-          if (data.priority === 1){
-            this.onCheckWarning();
-          }
-        });
-        this.listLoading = false;
-        //NProgress.done();
-      });
+      
+      // const data = this.getdata();
+      // this.getdata().then(res => {
+      // //   this.total = res.data.total;
+      // //   this.users = res.data.users;
+      // //   this.users.forEach((data) => {
+      // //     if (data.priority === 1){
+      // //       this.onCheckWarning();
+      // //     }
+      // //   });
+      // //   this.listLoading = false;
+      // //   //NProgress.done();
+      // console.log(res)
+      //  });
+      // console.log(data)
+      // getUserListPage(para).then(res => {
+      //   this.total = res.data.total;
+      //   this.users = res.data.users;
+      //   this.users.forEach((data) => {
+      //     if (data.priority === 1){
+      //       this.onCheckWarning();
+      //     }
+      //   });
+      //   this.listLoading = false;
+      //   //NProgress.done();
+      // });
+    },
+    async getPKG() {
+      let that = this
+      const response = await this.$axios
+        .get('http://localhost:3000/api/AWOS')
+        .then(function(response) {
+          // handle success
+          // response.data.array.forEach(element => {
+
+          // });
+          that.items = response.data
+          alert('Add Successfully!!!!!!!!')
+          return response.data
+        })
+        .catch(function(error) {
+          // handle error
+          console.log(error)
+        })
+        .then(function() {
+          // always executed
+        })
+    },
+    getscopeitem: function() {
+      let that = this
+      // Make a request for a user with a given ID
+      this.$axios
+
+        .get('http://localhost:3000/api/AWOS')
+        .then(function(response) {
+          // handle success
+
+          that.options = response.data
+        })
+        .catch(function(error) {
+          // handle error
+          console.log(error)
+        })
+        .then(function() {
+          // always executed
+        })
     },
     handleCurrentChange(val) {
       this.page = val;
@@ -226,7 +283,7 @@ export default {
     }
   },
   mounted() {
-    this.getUsers();
+    this.getUsers(),this.getscopeitem();
   }
 };
 </script>
