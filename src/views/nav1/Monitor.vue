@@ -10,25 +10,28 @@
                   <windrose1></windrose1>
                   <el-form :label-position="label_position" label-width="80px" :model="form">
                     <el-form-item label="2avg风速">
-                      <el-input v-model="form.windSpeed1" ></el-input>
+                      <el-input v-model="awos1.windSpeed1"></el-input>
                     </el-form-item>
                     <el-form-item label="10avg风速">
-                      <el-input v-model="form.windDirection1" ></el-input>
+                      <el-input v-model="awos1.windSpeed2"></el-input>
                     </el-form-item>
-                    <el-form-item label="风向">
-                      <el-input v-model="form.windDirection3" autosize></el-input>
+                    <el-form-item label="2avg风向">
+                      <el-input v-model="awos1.windDirection1" autosize></el-input>
+                    </el-form-item>
+                    <el-form-item label="10avg风向">
+                      <el-input v-model="awos1.windDirection2" autosize></el-input>
                     </el-form-item>
                     <el-form-item label="rvr">
-                      <el-input v-model="form.windDirection3" autosize></el-input>
+                      <el-input v-model="awos1.rvr" autosize></el-input>
                     </el-form-item>
                     <el-form-item label="温度">
-                      <el-input v-model="form.windDirection3" autosize></el-input>
+                      <el-input v-model="awos1.temp" autosize></el-input>
                     </el-form-item>
                     <el-form-item label="云高">
-                      <el-input v-model="form.windDirection3" autosize></el-input>
+                      <el-input v-model="awos1.cloud" autosize></el-input>
                     </el-form-item>
                     <el-form-item label="自动站">
-                      <el-input v-model="form.windDirection3" autosize></el-input>
+                      <el-input v-model="awos1.zdz" autosize></el-input>
                     </el-form-item>
                   </el-form>
                 </div>
@@ -38,25 +41,28 @@
                   <windrose3></windrose3>
                   <el-form :label-position="label_position" label-width="80px" :model="form">
                     <el-form-item label="2avg风速">
-                      <el-input v-model="form.windSpeed1" ></el-input>
+                      <el-input v-model="awos2.windSpeed1"></el-input>
                     </el-form-item>
                     <el-form-item label="10avg风速">
-                      <el-input v-model="form.windDirection1" ></el-input>
+                      <el-input v-model="awos2.windSpeed2"></el-input>
                     </el-form-item>
-                    <el-form-item label="风向">
-                      <el-input v-model="form.windDirection3" autosize></el-input>
+                    <el-form-item label="2avg风向">
+                      <el-input v-model="awos2.windDirection1" autosize></el-input>
+                    </el-form-item>
+                    <el-form-item label="10avg风向">
+                      <el-input v-model="awos2.windDirection2" autosize></el-input>
                     </el-form-item>
                     <el-form-item label="rvr">
-                      <el-input v-model="form.windDirection3" autosize></el-input>
+                      <el-input v-model="awos2.rvr" autosize></el-input>
                     </el-form-item>
                     <el-form-item label="温度">
-                      <el-input v-model="form.windDirection3" autosize></el-input>
+                      <el-input v-model="awos2.temp" autosize></el-input>
                     </el-form-item>
                     <el-form-item label="云高">
-                      <el-input v-model="form.windDirection3" autosize></el-input>
+                      <el-input v-model="awos2.cloud" autosize></el-input>
                     </el-form-item>
                     <el-form-item label="自动站">
-                      <el-input v-model="form.windDirection3" autosize></el-input>
+                      <el-input v-model="awos2.zdz" autosize></el-input>
                     </el-form-item>
                   </el-form>
                 </div>
@@ -66,35 +72,36 @@
                   <windrose4></windrose4>
                   <el-form :label-position="label_position" label-width="80px" :model="form">
                     <el-form-item label="2avg风速">
-                      <el-input v-model="form.windSpeed1" ></el-input>
+                      <el-input v-model="awos3.windSpeed1"></el-input>
                     </el-form-item>
                     <el-form-item label="10avg风速">
-                      <el-input v-model="form.windDirection1" ></el-input>
+                      <el-input v-model="awos3.windSpeed2"></el-input>
                     </el-form-item>
-                    <el-form-item label="风向">
-                      <el-input v-model="form.windDirection3" autosize></el-input>
+                    <el-form-item label="2avg风向">
+                      <el-input v-model="awos3.windDirection1" autosize></el-input>
+                    </el-form-item>
+                    <el-form-item label="10avg风向">
+                      <el-input v-model="awos3.windDirection2" autosize></el-input>
                     </el-form-item>
                     <el-form-item label="rvr">
-                    <el-input v-model="form.windDirection3" autosize></el-input>
-                  </el-form-item>
+                      <el-input v-model="awos3.rvr" autosize></el-input>
+                    </el-form-item>
                     <el-form-item label="温度">
-                      <el-input v-model="form.windDirection3" autosize></el-input>
+                      <el-input v-model="awos3.temp" autosize></el-input>
                     </el-form-item>
                     <el-form-item label="云高">
-                      <el-input v-model="form.windDirection3" autosize></el-input>
+                      <el-input v-model="awos3.cloud" autosize></el-input>
                     </el-form-item>
                     <el-form-item label="自动站">
-                      <el-input v-model="form.windDirection3" autosize></el-input>
+                      <el-input v-model="awos3.zdz" autosize></el-input>
                     </el-form-item>
                   </el-form>
                 </div>
               </el-col>
             </div>
             <div class="grid-content"></div>
-            <div class="grid-content">
-            </div>
-            <div class="grid-content">
-            </div>
+            <div class="grid-content"></div>
+            <div class="grid-content"></div>
           </div>
         </div>
       </el-col>
@@ -125,11 +132,11 @@
             :row-class-name="tableRowClassName"
           >
             <!--            stripe-->
-<!--            <el-table-column type="selection" width="55"></el-table-column>-->
-<!--            <el-table-column type="index" width="60"></el-table-column>-->
-            <el-table-column prop="time" label="时间" width="" min-width="40%"></el-table-column>
+            <!--            <el-table-column type="selection" width="55"></el-table-column>-->
+            <!--            <el-table-column type="index" width="60"></el-table-column>-->
+            <el-table-column prop="time" label="时间" width min-width="40%"></el-table-column>
             <el-table-column prop="priority" label="告警等级" min-width="10%" width="120"></el-table-column>
-            <el-table-column prop="message" label="告警内容" min-width="50%" ></el-table-column>
+            <el-table-column prop="message" label="告警内容" min-width="50%"></el-table-column>
           </el-table>
           <el-col :span="24" class="toolbar">
             <el-pagination
@@ -143,41 +150,69 @@
         </div>
       </el-col>
     </el-row>
-    <audio id="audio" src="./static/error.mp3" ></audio>
-    <label for="audio">测试警报声：</label><p></p>
+    <audio id="audio" src="./static/error.mp3"></audio>
+    <label for="audio">测试警报声：</label>
+    <p></p>
     <audio controls>
-      <source src="./static/error.mp3" type="audio/mp3">
+      <source src="./static/error.mp3" type="audio/mp3" />
     </audio>
   </div>
 </template>
 
 <script>
-import { getUserListPage } from "../../api/api";
-import { getdata } from "../../api/api";
-import windrose1 from "../../components/windrose1";
-import windrose2 from "../../components/windrose2";
-import windrose3 from "../../components/windrose3";
-import windrose4 from "../../components/windrose4";
-import windrose from "../../components/windrose";
+import { getUserListPage } from '../../api/api';
+import { getAWOS1 } from '../../api/api';
+import windrose1 from '../../components/windrose1';
+import windrose2 from '../../components/windrose2';
+import windrose3 from '../../components/windrose3';
+import windrose4 from '../../components/windrose4';
+import windrose from '../../components/windrose';
 
 export default {
   data() {
     return {
-      label_position:"left",
+      label_position: 'left',
       filters: {
-        name: ""
+        name: ''
       },
       users: [],
       total: 0,
       page: 1,
       listLoading: false,
       sels: [], //列表选中列
-      form:{windSpeed1:1,windDirection1:2,
-            windSpeed2:1,windDirection2:2,
-            windSpeed3:1,windDirection3:2},
+      awos1: {
+        windSpeed1: '',
+        windSpeed2: '',
+        windDirection1: '',
+        windDirection2: '',
+        rvr: '',
+        temp: '',
+        cloud: '',
+        zdz: ''
+      },
+      awos3: {
+        windSpeed1: '',
+        windSpeed2: '',
+        windDirection1: '',
+        windDirection2: '',
+        rvr: '',
+        temp: '',
+        cloud: '',
+        zdz: ''
+      },
+      awos2: {
+        windSpeed1: '',
+        windSpeed2: '',
+        windDirection1: '',
+        windDirection2: '',
+        rvr: '',
+        temp: '',
+        cloud: '',
+        zdz: ''
+      },
+      form: { windSpeed1: 1, windDirection1: 2, windSpeed2: 1, windDirection2: 2, windSpeed3: 1, windDirection3: 2 },
       editFormVisible: false, //编辑界面是否显示
-      editLoading: false,
-
+      editLoading: false
     };
   },
   components: {
@@ -195,23 +230,92 @@ export default {
         name: this.filters.name
       };
       this.listLoading = true;
-      this.getPKG()
+
       //NProgress.start();
-      
-      // const data = this.getdata();
-      // this.getdata().then(res => {
-      // //   this.total = res.data.total;
-      // //   this.users = res.data.users;
-      // //   this.users.forEach((data) => {
-      // //     if (data.priority === 1){
-      // //       this.onCheckWarning();
-      // //     }
-      // //   });
-      // //   this.listLoading = false;
-      // //   //NProgress.done();
-      // console.log(res)
-      //  });
-      // console.log(data)
+      getAWOS1(para).then(res => {
+        res.data.AWOS2[0].forEach((awos, index) => {
+          switch (index) {
+            case 15:
+              this.awos1.windSpeed1 = awos;
+              break;
+            case 16:
+              this.awos1.windSpeed2 = awos;
+              break;
+            case 17:
+              this.awos1.windDirection1 = awos;
+              break;
+            case 18:
+              this.awos1.windDirection2 = awos;
+              break;
+            case 12:
+              this.awos1.rvr = awos;
+              break;
+            case 18:
+              this.awos1.zdz = awos;
+              break;
+            case 27:
+              this.awos1.cloud = awos;
+              break;
+            case 23:
+              this.awos1.temp = awos;
+              break;
+            //////
+            case 33:
+              this.awos2.windSpeed1 = awos;
+              break;
+            case 35:
+              this.awos2.windSpeed2 = awos;
+              break;
+            case 34:
+              this.awos2.windDirection1 = awos;
+              break;
+            case 37:
+              this.awos2.windDirection2 = awos;
+              break;
+            case 29:
+              this.awos2.rvr = awos;
+              break;
+            case 18:
+              this.awos2.zdz = awos;
+              break;
+            case 43:
+              this.awos2.cloud = awos;
+              break;
+            case 40:
+              this.awos2.temp = awos;
+              break;
+            //////
+            case 49:
+              this.awos1.windSpeed1 = awos;
+              break;
+            case 51:
+              this.awos3.windSpeed2 = awos;
+              break;
+            case 50:
+              this.awos3.windDirection1 = awos;
+              break;
+            case 52:
+              this.awos3.windDirection2 = awos;
+              break;
+            case 45:
+              this.awos3.rvr = awos;
+              break;
+            case 18:
+              this.awos3.zdz = awos;
+              break;
+            case 59:
+              this.awos3.cloud = awos;
+              break;
+            case 56:
+              this.awos3.temp = awos;
+              break;
+            default:
+              break;
+          }
+        });
+
+        this.listLoading = false;
+      });
       // getUserListPage(para).then(res => {
       //   this.total = res.data.total;
       //   this.users = res.data.users;
@@ -224,53 +328,14 @@ export default {
       //   //NProgress.done();
       // });
     },
-    async getPKG() {
-      let that = this
-      const response = await this.$axios
-        .get('http://localhost:3000/api/AWOS')
-        .then(function(response) {
-          // handle success
-          // response.data.array.forEach(element => {
 
-          // });
-          that.items = response.data
-          alert('Add Successfully!!!!!!!!')
-          return response.data
-        })
-        .catch(function(error) {
-          // handle error
-          console.log(error)
-        })
-        .then(function() {
-          // always executed
-        })
-    },
-    getscopeitem: function() {
-      let that = this
-      // Make a request for a user with a given ID
-      this.$axios
-
-        .get('http://localhost:3000/api/AWOS')
-        .then(function(response) {
-          // handle success
-
-          that.options = response.data
-        })
-        .catch(function(error) {
-          // handle error
-          console.log(error)
-        })
-        .then(function() {
-          // always executed
-        })
-    },
     handleCurrentChange(val) {
       this.page = val;
       this.getUsers();
     },
-    onCheckWarning(){
+    onCheckWarning() {
       const audio = document.getElementById('audio');
-      audio.play()
+      audio.play();
     },
     tableRowClassName(row, rowIndex) {
       if (row.priority == 1) {
@@ -283,15 +348,15 @@ export default {
     }
   },
   mounted() {
-    this.getUsers(),this.getscopeitem();
+    this.getUsers();
   }
 };
 </script>
 <style>
-  .el-table .error-row {
-    background: #fdafbc;
-  }
-  .el-table .warning-row {
-    background: #fddf87;
-  }
+.el-table .error-row {
+  background: #fdafbc;
+}
+.el-table .warning-row {
+  background: #fddf87;
+}
 </style>
