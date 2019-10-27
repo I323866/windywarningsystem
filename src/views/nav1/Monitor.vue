@@ -160,20 +160,22 @@
 </template>
 
 <script>
-import { getUserListPage } from '../../api/api';
-import { getAWOS1 } from '../../api/api';
-import windrose1 from '../../components/windrose1';
-import windrose2 from '../../components/windrose2';
-import windrose3 from '../../components/windrose3';
-import windrose4 from '../../components/windrose4';
-import windrose from '../../components/windrose';
+import { getUserListPage } from "../../api/api";
+import { getAWOS1 } from "../../api/api";
+import { getAWOSWarning } from "../../api/api";
+import moment from "moment";
+import windrose1 from "../../components/windrose1";
+import windrose2 from "../../components/windrose2";
+import windrose3 from "../../components/windrose3";
+import windrose4 from "../../components/windrose4";
+import windrose from "../../components/windrose";
 
 export default {
   data() {
     return {
-      label_position: 'left',
+      label_position: "left",
       filters: {
-        name: ''
+        name: ""
       },
       users: [],
       total: 0,
@@ -181,36 +183,43 @@ export default {
       listLoading: false,
       sels: [], //列表选中列
       awos1: {
-        windSpeed1: '',
-        windSpeed2: '',
-        windDirection1: '',
-        windDirection2: '',
-        rvr: '',
-        temp: '',
-        cloud: '',
-        zdz: ''
+        windSpeed1: "",
+        windSpeed2: "",
+        windDirection1: "",
+        windDirection2: "",
+        rvr: "",
+        temp: "",
+        cloud: "",
+        zdz: ""
       },
       awos3: {
-        windSpeed1: '',
-        windSpeed2: '',
-        windDirection1: '',
-        windDirection2: '',
-        rvr: '',
-        temp: '',
-        cloud: '',
-        zdz: ''
+        windSpeed1: "",
+        windSpeed2: "",
+        windDirection1: "",
+        windDirection2: "",
+        rvr: "",
+        temp: "",
+        cloud: "",
+        zdz: ""
       },
       awos2: {
-        windSpeed1: '',
-        windSpeed2: '',
-        windDirection1: '',
-        windDirection2: '',
-        rvr: '',
-        temp: '',
-        cloud: '',
-        zdz: ''
+        windSpeed1: "",
+        windSpeed2: "",
+        windDirection1: "",
+        windDirection2: "",
+        rvr: "",
+        temp: "",
+        cloud: "",
+        zdz: ""
       },
-      form: { windSpeed1: 1, windDirection1: 2, windSpeed2: 1, windDirection2: 2, windSpeed3: 1, windDirection3: 2 },
+      form: {
+        windSpeed1: 1,
+        windDirection1: 2,
+        windSpeed2: 1,
+        windDirection2: 2,
+        windSpeed3: 1,
+        windDirection3: 2
+      },
       editFormVisible: false, //编辑界面是否显示
       editLoading: false
     };
@@ -316,9 +325,28 @@ export default {
 
         this.listLoading = false;
       });
-      // getUserListPage(para).then(res => {
+
+      const now = moment()
+        .locale("zh-cn")
+        .format("YYYY-MM-DD HH:mm:ss");
+      const AWOSwarnings = [];
+      
+      
+      AWOSwarnings.push({ time: now, priority: "橙色告警", message: "风速变化达到橙色告警线，请关注！" });
+      AWOSwarnings.push({ time: now, priority: "红色告警", message: "风速变化达到红色告警线，请关注！" });
+      AWOSwarnings.push({ time: now, priority: "黄色告警", message: "风速变化达到黄色告警线，请关注！"});
+      AWOSwarnings.push({ time: now, priority: "红色告警", message: "风速变化达到红色告警线，请关注！" });
+      AWOSwarnings.push({ time: now, priority: "橙色告警", message: "风速变化达到红色告警线，请关注！" });
+      this.users = AWOSwarnings
+      this.users.forEach(data => {
+        if (data.priority == "红色告警") {
+          this.onCheckWarning();
+        }
+      });
+      this.listLoading = false;
+      // getAWOSWarning(para).then(res => {
       //   this.total = res.data.total;
-      //   this.users = res.data.users;
+      //   this.users = res.data;
       //   this.users.forEach((data) => {
       //     if (data.priority === 1){
       //       this.onCheckWarning();
@@ -334,17 +362,20 @@ export default {
       this.getUsers();
     },
     onCheckWarning() {
-      const audio = document.getElementById('audio');
+      const audio = document.getElementById("audio");
       audio.play();
     },
     tableRowClassName(row, rowIndex) {
-      if (row.priority == 1) {
-        return 'error-row';
+      if (row.priority == "红色告警") {
+        return "error-row";
       }
-      if (row.priority == 2) {
-        return 'warning-row';
+      if (row.priority == "橙色告警") {
+        return "warning-row";
       }
-      return '';
+      if (row.priority == "黄色告警") {
+        return "normal-row";
+      }
+      return "";
     }
   },
   mounted() {
@@ -358,5 +389,8 @@ export default {
 }
 .el-table .warning-row {
   background: #fddf87;
+}
+.el-table .normal-row {
+  background: #faf5af;
 }
 </style>

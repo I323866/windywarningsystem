@@ -13,11 +13,12 @@ export const getUserList = params => {
 export const getAWOS1 = params => {
   return axios.get(`http://localhost:3000/api/AWOS`, { params: params });
 };
-
+export const getAWOSWarning = params => {
+  return axios.get(`http://localhost:3000/api/AWOSWarning`, { params: params });
+};
 export const getUserListPage = params => {
   return axios.get(`${base}/user/listpage`, { params: params });
 };
-
 export const removeUser = params => {
   return axios.get(`${base}/user/remove`, { params: params });
 };
