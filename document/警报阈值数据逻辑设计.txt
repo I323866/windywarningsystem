@@ -1,0 +1,76 @@
+注意：
+1.此处风向全部需要取整，具体计算方法为：风向/10，取整后*10，小数四舍五入。
+2.所有数据按基准点数据计算：
+  ZSSS为36L，具体数据在MHAPP.ELE01_AWOS的CCCC='ZSSS'AND RNO='02' 的END_开头数据
+  ZSPD为35R，具体数据在MHAPP.ELE01_AWOS的CCCC='ZSPD'AND RNO='01' 的TDZ_开头数据
+
+一、风（主要侧重于趋势预报发布的提醒）
+
+1、风向变化≥60°，且风速≥4m/s。
+2、风向较浦东相差≥60°，且风速本场≥4m/s
+思路：
+select出ZSSS最新的10A风速记录 
+    select END_WIND_F10 from MHAPP.ELE01_AWOS t where  cccc='ZSSS' and RNO='02' and rownum=1 order by receivetime desc
+判断其值是否大于等于4m/s  
+结果为真时，select最新风向与10分钟前的风向
+    A=select  END_WIND_D10 from MHAPP.ELE01_AWOS t where  cccc='ZSSS' and RNO='02' and rownum=1 order by receivetime desc 
+    B=select  END_WIND_D10 from MHAPP.ELE01_AWOS t where  cccc='ZSSS' and RNO='02' and rownum=11 order by receivetime desc 
+    C=select TDZ_WIND_D10 from MHAPP.ELE01_AWOS t where  cccc='ZSSS' and RNO='02' and rownum=1 order by receivetime desc
+将【A与B】或【A与C】差值的绝对值大于60时，弹出告警，告警内容【类别：风向趋势告警，内容：注意风向变化】
+结果为假时，不做任何操作。
+
+
+3、风速变化≥4m/s
+思路：将ZSSS站点的所有数据风速按照入库时间罗列，取第1行、第11行的风速相减，看差值绝对值
+    A=select  END_WIND_F10 from MHAPP.ELE01_AWOS t where  cccc='ZSSS' and RNO='02' and rownum=1 order by receivetime desc 
+    B=select  END_WIND_F10 from MHAPP.ELE01_AWOS t where  cccc='ZSSS' and RNO='02' and rownum=11 order by receivetime desc
+A-B>=4, 弹出告警，告警内容【类别：风速趋势告警，内容：风速快速变化】
+
+
+4、出现阵风≥10m/s
+SASP表中MAXWINDSPEED
+    A=select  MAXWINDSPEED from MHAPP.ELE01_SASP t where  cccc='ZSSS' and rownum=1 order by receivetime desc 
+    if {A>=10, 弹出告警，告警内容【类别：阵风告警，内容：注意阵风】}
+
+
+5、气象局自动站宝山站与松江站风向出现偏北与偏南，且风速≥3m/s。
+
+
+6、报文出现连续两个时次的风速≥10m/s（机场警报提醒用）
+SASP表中最新2条报文的AVGWINDSPEED项目
+A=select  AVGWINDSPEED from MHAPP.ELE01_SASP t where  cccc='ZSSS' and rownum=1 order by receivetime desc 
+B=select  AVGWINDSPEED from MHAPP.ELE01_SASP t where  cccc='ZSSS' and rownum=2 order by receivetime desc 
+
+
+二、温度
+1、本场温度变化≥2℃
+2、气象局自动站宝山站与浦东站温度相差2.5℃
+3、本场温度低于0℃或者本场温度高于35℃
+
+三、能见度
+1、本场VIS（10A）变化≥5km，且变化后vis（10A）≤5km
+2、本场RVR（10A）变化≥30%，且变化后RVR（10A）≤2km
+3、本场VIS出现≤1km
+4、本场RVR出现≤650m
+5、周边气象局自动站（宝山、松江、闵行等）vis变化≥5km且变化后vis≤5km
+5、周边气象局自动站（宝山、松江、闵行等）vis≤500m
+6、3、本场或者周边气象局自动站（宝山、松江、闵行等）相对湿度≥98%时 
+
+四、天气现象（主要是雷暴和中或大阵雨）
+1、本场实况报文出现CB云
+2、本场实况报文出现TS时
+3、本场自观降水量1分钟出现≥0.1mm
+4、浦东机场或者南通或者常州机场实况报文出现TS时
+5、上海终端区内出现虹桥雷达回波强度≥40dbz（上海终端区可以近似认为虹桥方圆100km范围内）
+
+五、云
+1、本场云高≤100m时（云量无要求）
+2、浦东机场出现云高≤90m
+3、本场相对湿度RH≥98%时
+4、周边气象局自动站（宝山、松江、闵行等）相对湿度≥98%时
+5、本场云高变化≥30%，且云高变化前或者变化后小于450m时
+
+select * from MHAPP.ELE01_AWOS t where  cccc='ZSSS' and RNO='01'and rownum=1 order by receivetime desc
+
+10分钟之前的数据
+select  * from MHAPP.ELE01_AWOS t where  cccc='ZSSS' and RNO='02' and odate = to_char(sysdate-600/24/60/60,'yyyymmdd') and otime = to_char(sysdate-600/24/60/60,'hh24mi')

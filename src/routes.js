@@ -29,10 +29,12 @@ let routes = [
     {
         path: '/',
         component: Home,
-        name: '跑道监控页面',
-        iconCls: 'fa fa-id-card-o',//图标样式class
+        name: '跑道AWOS',
+        // iconCls: 'fa fa-id-card-o',//图标样式class
         children: [
-            { path: '/monitor', component: monitor, name: '主页' }
+            { path: '/windrose1', component: windrose1, name: '虹桥机场跑道1' },
+            { path: '/monitor', component: monitor, name: '虹桥机场跑道2' }
+           
             // { path: '/table', component: Table, name: 'Table' },
             // { path: '/form', component: Form, name: 'Form' },
             // { path: '/user', component: user, name: '列表' },
@@ -59,18 +61,15 @@ let routes = [
     //         { path: '/page6', component: Page6, name: '导航三' }
     //     ]
     // },
-    // {
-    //     path: '/',
-    //     component: Home,
-    //     name: 'Charts',
-    //     iconCls: 'fa fa-bar-chart',
-    //     children: [
-    //         { path: '/echarts', component: echarts, name: 'echarts' },
-    //         { path: '/windrose1', component: windrose1, name: 'windrose1' },
-    //         { path: '/windrose2', component: windrose2, name: 'windrose2' },
-    //         { path: '/windrose', component: windrose, name: 'windrose' }
-    //     ]
-    // },
+    {
+        path: '/',
+        component: Home,
+        name: '自动站',
+        // iconCls: 'fa fa-bar-chart',
+        children: [
+            { path: '/echarts', component: echarts, name: '自动站' },
+        ]
+    },
     {
         path: '*',
         hidden: true,

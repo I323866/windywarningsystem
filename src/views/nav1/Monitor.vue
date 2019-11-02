@@ -7,21 +7,21 @@
             <div class="grid-content">
               <el-col :span="8">
                 <div class="grid-content">
-                  <windrose1></windrose1>
+                  <windrose1 :testdata="testdata"></windrose1>
                   <el-form :label-position="label_position" label-width="80px" :model="form">
-                    <el-form-item label="2avg风速">
+                    <el-form-item label="风速2A">
                       <el-input v-model="awos1.windSpeed1"></el-input>
                     </el-form-item>
-                    <el-form-item label="10avg风速">
-                      <el-input v-model="awos1.windSpeed2"></el-input>
-                    </el-form-item>
-                    <el-form-item label="2avg风向">
+                    <el-form-item label="风向2A">
                       <el-input v-model="awos1.windDirection1" autosize></el-input>
                     </el-form-item>
-                    <el-form-item label="10avg风向">
+                    <el-form-item label="风速10A">
+                      <el-input v-model="awos1.windSpeed2"></el-input>
+                    </el-form-item>
+                    <el-form-item label="风向10A">
                       <el-input v-model="awos1.windDirection2" autosize></el-input>
                     </el-form-item>
-                    <el-form-item label="rvr">
+                    <el-form-item label="RVR">
                       <el-input v-model="awos1.rvr" autosize></el-input>
                     </el-form-item>
                     <el-form-item label="温度">
@@ -30,9 +30,6 @@
                     <el-form-item label="云高">
                       <el-input v-model="awos1.cloud" autosize></el-input>
                     </el-form-item>
-                    <el-form-item label="自动站">
-                      <el-input v-model="awos1.zdz" autosize></el-input>
-                    </el-form-item>
                   </el-form>
                 </div>
               </el-col>
@@ -40,19 +37,19 @@
                 <div class="grid-content">
                   <windrose3></windrose3>
                   <el-form :label-position="label_position" label-width="80px" :model="form">
-                    <el-form-item label="2avg风速">
+                    <el-form-item label="风速2A">
                       <el-input v-model="awos2.windSpeed1"></el-input>
                     </el-form-item>
-                    <el-form-item label="10avg风速">
-                      <el-input v-model="awos2.windSpeed2"></el-input>
-                    </el-form-item>
-                    <el-form-item label="2avg风向">
+                    <el-form-item label="风向2A">
                       <el-input v-model="awos2.windDirection1" autosize></el-input>
                     </el-form-item>
-                    <el-form-item label="10avg风向">
+                    <el-form-item label="风速10A">
+                      <el-input v-model="awos2.windSpeed2"></el-input>
+                    </el-form-item>
+                    <el-form-item label="风向10A">
                       <el-input v-model="awos2.windDirection2" autosize></el-input>
                     </el-form-item>
-                    <el-form-item label="rvr">
+                    <el-form-item label="RVR">
                       <el-input v-model="awos2.rvr" autosize></el-input>
                     </el-form-item>
                     <el-form-item label="温度">
@@ -61,9 +58,6 @@
                     <el-form-item label="云高">
                       <el-input v-model="awos2.cloud" autosize></el-input>
                     </el-form-item>
-                    <el-form-item label="自动站">
-                      <el-input v-model="awos2.zdz" autosize></el-input>
-                    </el-form-item>
                   </el-form>
                 </div>
               </el-col>
@@ -71,19 +65,19 @@
                 <div class="grid-content">
                   <windrose4></windrose4>
                   <el-form :label-position="label_position" label-width="80px" :model="form">
-                    <el-form-item label="2avg风速">
+                    <el-form-item label="风速2A">
                       <el-input v-model="awos3.windSpeed1"></el-input>
                     </el-form-item>
-                    <el-form-item label="10avg风速">
-                      <el-input v-model="awos3.windSpeed2"></el-input>
-                    </el-form-item>
-                    <el-form-item label="2avg风向">
+                    <el-form-item label="风向2A">
                       <el-input v-model="awos3.windDirection1" autosize></el-input>
                     </el-form-item>
-                    <el-form-item label="10avg风向">
+                    <el-form-item label="风速10A">
+                      <el-input v-model="awos3.windSpeed2"></el-input>
+                    </el-form-item>
+                    <el-form-item label="风向10A">
                       <el-input v-model="awos3.windDirection2" autosize></el-input>
                     </el-form-item>
-                    <el-form-item label="rvr">
+                    <el-form-item label="RVR">
                       <el-input v-model="awos3.rvr" autosize></el-input>
                     </el-form-item>
                     <el-form-item label="温度">
@@ -91,9 +85,6 @@
                     </el-form-item>
                     <el-form-item label="云高">
                       <el-input v-model="awos3.cloud" autosize></el-input>
-                    </el-form-item>
-                    <el-form-item label="自动站">
-                      <el-input v-model="awos3.zdz" autosize></el-input>
                     </el-form-item>
                   </el-form>
                 </div>
@@ -110,21 +101,24 @@
           <!--工具条-->
           <el-col :span="24" class="toolbar" style="padding-bottom: 0px;">
             <el-form :inline="true" :model="filters">
-              <el-form-item :span="20">
+              <!-- <el-form-item :span="20">
                 <el-input v-model="filters.name" placeholder="搜索"></el-input>
+              </el-form-item>-->
+              <el-form-item>
+                <el-button size="small" class="button" v-on:click="updateWarning(1)">不再提醒</el-button>
               </el-form-item>
-              <!-- <el-form-item>
-                <el-button type="primary" v-on:click="getUsers">查询</el-button>
-              </el-form-item>-->
-              <!-- <el-form-item>
-                <el-button type="primary" @click="handleAdd">新增</el-button>
-              </el-form-item>-->
+              <el-form-item>
+                <el-button size="small" class="button" @click="updateWarning(2)">两小时后提醒</el-button>
+              </el-form-item>
+              <el-form-item>
+                <el-button size="small" class="button" @click="updateWarning(3)">四小时后提醒</el-button>
+              </el-form-item>
             </el-form>
           </el-col>
 
           <!--列表-->
           <el-table
-            :data="users"
+            :data="warning"
             height="700"
             highlight-current-row
             v-loading="listLoading"
@@ -132,10 +126,10 @@
             :row-class-name="tableRowClassName"
           >
             <!--            stripe-->
-            <!--            <el-table-column type="selection" width="55"></el-table-column>-->
+            <el-table-column type="selection" width="55"></el-table-column>
             <!--            <el-table-column type="index" width="60"></el-table-column>-->
             <el-table-column prop="time" label="时间" width min-width="40%"></el-table-column>
-            <el-table-column prop="priority" label="告警等级" min-width="10%" width="120"></el-table-column>
+            <el-table-column prop="priority" label="告警类别" min-width="10%" width="120"></el-table-column>
             <el-table-column prop="message" label="告警内容" min-width="50%"></el-table-column>
           </el-table>
           <el-col :span="24" class="toolbar">
@@ -165,7 +159,6 @@ import { getAWOS1 } from "../../api/api";
 import { getAWOSWarning } from "../../api/api";
 import moment from "moment";
 import windrose1 from "../../components/windrose1";
-import windrose2 from "../../components/windrose2";
 import windrose3 from "../../components/windrose3";
 import windrose4 from "../../components/windrose4";
 import windrose from "../../components/windrose";
@@ -173,11 +166,17 @@ import windrose from "../../components/windrose";
 export default {
   data() {
     return {
+      testdata: [
+        { id: 1, name: Infinity },
+        { id: 2, name: 9000 },
+        { id: 3, name: 7000 },
+        { id: 4, name: 8000 }
+      ],
       label_position: "left",
       filters: {
         name: ""
       },
-      users: [],
+      warning: [],
       total: 0,
       page: 1,
       listLoading: false,
@@ -227,20 +226,16 @@ export default {
   components: {
     windrose1,
     windrose,
-    windrose2,
     windrose3,
     windrose4
   },
   methods: {
-    //获取用户列表
-    getUsers() {
+    //获取数据列表
+    getFromData() {
       let para = {
         page: this.page,
         name: this.filters.name
       };
-      this.listLoading = true;
-
-      //NProgress.start();
       getAWOS1(para).then(res => {
         res.data.AWOS2[0].forEach((awos, index) => {
           switch (index) {
@@ -251,10 +246,11 @@ export default {
               this.awos1.windSpeed2 = awos;
               break;
             case 17:
-              this.awos1.windDirection1 = awos;
+              this.awos1.windDirection1 = Math.round(awos / 10) * 10;
               break;
             case 18:
-              this.awos1.windDirection2 = awos;
+              this.awos1.windDirection2 = this.awos1.windDirection1 =
+                Math.round(awos / 10) * 10;
               break;
             case 12:
               this.awos1.rvr = awos;
@@ -276,10 +272,12 @@ export default {
               this.awos2.windSpeed2 = awos;
               break;
             case 34:
-              this.awos2.windDirection1 = awos;
+              this.awos2.windDirection1 = this.awos1.windDirection1 =
+                Math.round(awos / 10) * 10;
               break;
             case 37:
-              this.awos2.windDirection2 = awos;
+              this.awos2.windDirection2 = this.awos1.windDirection1 =
+                Math.round(awos / 10) * 10;
               break;
             case 29:
               this.awos2.rvr = awos;
@@ -301,10 +299,12 @@ export default {
               this.awos3.windSpeed2 = awos;
               break;
             case 50:
-              this.awos3.windDirection1 = awos;
+              this.awos3.windDirection1 = this.awos1.windDirection1 =
+                Math.round(awos / 10) * 10;
               break;
             case 52:
-              this.awos3.windDirection2 = awos;
+              this.awos3.windDirection2 = this.awos1.windDirection1 =
+                Math.round(awos / 10) * 10;
               break;
             case 45:
               this.awos3.rvr = awos;
@@ -322,44 +322,66 @@ export default {
               break;
           }
         });
-
-        this.listLoading = false;
       });
+    },
+    getMessage() {
+      this.listLoading = true;
+      const data = getAWOSWarning();
 
       const now = moment()
         .locale("zh-cn")
-        .format("YYYY-MM-DD HH:mm:ss");
+        .format("YYYY-MM-DD HH:mm");
       const AWOSwarnings = [];
-      
-      
-      AWOSwarnings.push({ time: now, priority: "橙色告警", message: "风速变化达到橙色告警线，请关注！" });
-      AWOSwarnings.push({ time: now, priority: "红色告警", message: "风速变化达到红色告警线，请关注！" });
-      AWOSwarnings.push({ time: now, priority: "黄色告警", message: "风速变化达到黄色告警线，请关注！"});
-      AWOSwarnings.push({ time: now, priority: "红色告警", message: "风速变化达到红色告警线，请关注！" });
-      AWOSwarnings.push({ time: now, priority: "橙色告警", message: "风速变化达到红色告警线，请关注！" });
-      this.users = AWOSwarnings
-      this.users.forEach(data => {
+
+      AWOSwarnings.push({
+        time: now,
+        priority: "橙色告警",
+        message: "风速变化达到橙色告警线，请关注！"
+      });
+      AWOSwarnings.push({
+        time: now,
+        priority: "红色告警",
+        message: "风速变化达到红色告警线，请关注！"
+      });
+      AWOSwarnings.push({
+        time: now,
+        priority: "黄色告警",
+        message: "风速变化达到黄色告警线，请关注！"
+      });
+      AWOSwarnings.push({
+        time: now,
+        priority: "红色告警",
+        message: "风速变化达到红色告警线，请关注！"
+      });
+      AWOSwarnings.push({
+        time: now,
+        priority: "橙色告警",
+        message: "风速变化达到红色告警线，请关注！"
+      });
+      this.warning = AWOSwarnings;
+      this.warning.forEach(data => {
         if (data.priority == "红色告警") {
           this.onCheckWarning();
         }
       });
       this.listLoading = false;
-      // getAWOSWarning(para).then(res => {
-      //   this.total = res.data.total;
-      //   this.users = res.data;
-      //   this.users.forEach((data) => {
-      //     if (data.priority === 1){
-      //       this.onCheckWarning();
-      //     }
-      //   });
-      //   this.listLoading = false;
-      //   //NProgress.done();
-      // });
     },
-
+    updateWarning(para) {
+      switch (para) {
+        case 1:
+          
+          break;
+        case 2:
+          break;
+        case 3:
+          break;
+        default:
+          break;
+      }
+    },
     handleCurrentChange(val) {
       this.page = val;
-      this.getUsers();
+      this.getFromData();
     },
     onCheckWarning() {
       const audio = document.getElementById("audio");
@@ -379,7 +401,8 @@ export default {
     }
   },
   mounted() {
-    this.getUsers();
+    this.getFromData();
+    this.getMessage();
   }
 };
 </script>
@@ -392,5 +415,8 @@ export default {
 }
 .el-table .normal-row {
   background: #faf5af;
+}
+.button {
+  background: #d5dfe9;
 }
 </style>

@@ -16,11 +16,12 @@ for (var i = 0; i < windDirectionJSON.length; i++) {
 windDataJSON.sort(function(a, b) {
   return a[0] - b[0];
 });
-var categories = ['N', 'NNE', 'NE', 'ENE', 'E', 'ESE', 'SE', 'SSE', 'S', 'SSW', 'SW', 'WSW', 'W', 'WNW', 'NW', 'NNW'];
+var categories = ['0', '30', '60', '90', '120', '150', '180', '210', '240', '270', '300', '330' ,  '360'];
 var options = {
   series: [
     {
-      data: windDataJSON
+      data: windDataJSON,
+      name: '18R'
     }
   ],
   chart: {
@@ -28,10 +29,10 @@ var options = {
     type: 'column'
   },
   title: {
-    text: '跑道2 18R '
+    text: ''
   },
   pane: {
-    size: '85%'
+    size: '68%'
   },
   legend: {
     align: 'right',
@@ -43,11 +44,11 @@ var options = {
     min: 0,
     max: 360,
     type: '',
-    tickInterval: 22.5,
+    tickInterval: 30,
     tickmarkPlacement: 'on',
     labels: {
       formatter: function() {
-        return categories[this.value / 22.5] + '°';
+        return categories[this.value / 30] + '°';
       }
     }
   },
@@ -56,7 +57,7 @@ var options = {
     endOnTick: false,
     showLastLabel: true,
     title: {
-      text: 'Frequency (%)'
+      text: ''
     },
     labels: {
       formatter: function() {
@@ -82,6 +83,9 @@ var options = {
 };
 export default {
   name: 't5',
+  props: {
+    testdata: Array,
+  },
   data() {
     return {
       options: options,
@@ -96,6 +100,7 @@ export default {
         page: '',
         name: ''
       };
+      var aa = this.testdata
       //NProgress.start();
       getAWOS1(para).then(res => {
         res.data.AWOS1[0].forEach((awos, index) => {
