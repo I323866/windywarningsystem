@@ -102,18 +102,7 @@ export default {
       };
       var aa = this.testdata
       //NProgress.start();
-      getAWOS1(para).then(res => {
-        res.data.AWOS1[0].forEach((awos, index) => {
-          switch (index) {
-            case 15:
-              this.windSpeed1 = awos;
-              break;
-            case 16:
-              this.windSpeed2 = awos;
-              break;
-          }
-        });
-      });
+
     }
   },
   mounted() {

@@ -80,7 +80,7 @@ export default {
           // return true;
           this.logining = false;
           sessionStorage.setItem('user', JSON.stringify('hqyb'));
-          this.$router.push({ path: '/monitor' });
+          this.$router.push({ path: '/monitor2' });
         } else {
           console.log('error submit!!');
           return false;

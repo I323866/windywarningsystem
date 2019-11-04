@@ -7,7 +7,7 @@
             <div class="grid-content">
               <el-col :span="8">
                 <div class="grid-content">
-                  <windrose1 :speed="awos1.windSpeed2" :dire="awos1.windDirection2"></windrose1>
+                  <windrose1 :testdata="testdata"></windrose1>
                   <el-form :label-position="label_position" label-width="80px" :model="form">
                     <el-form-item label="风速2A">
                       <el-input v-model="awos1.windSpeed1"></el-input>
@@ -167,7 +167,7 @@ import lodash from 'lodash';
 export default {
   data() {
     return {
-      testdata: [],
+      testdata: [{ id: 1, name: Infinity }, { id: 2, name: 9000 }, { id: 3, name: 7000 }, { id: 4, name: 8000 }],
       label_position: 'left',
       filters: {
         name: ''
@@ -227,7 +227,7 @@ export default {
   },
   methods: {
     //获取数据列表
-    getFormData() {
+    getFromData() {
       let para = {
         page: this.page,
         name: this.filters.name
@@ -238,140 +238,76 @@ export default {
             case 15:
               this.awos1.windSpeed1 = awos;
               break;
-            case 17:
+            case 16:
               this.awos1.windSpeed2 = awos;
               break;
-            case 16:
+            case 17:
               this.awos1.windDirection1 = Math.round(awos / 10) * 10;
               break;
             case 18:
               this.awos1.windDirection2 = this.awos1.windDirection1 = Math.round(awos / 10) * 10;
               break;
-            case 11:
+            case 12:
               this.awos1.rvr = awos;
               break;
-            case 0:
-              // this.awos1.zdz = awos;
+            case 18:
+              this.awos1.zdz = awos;
               break;
             case 27:
-              if (awos == null || awos == 0) {
-                this.awos1.cloud = '/';
-              } else {
-                this.awos1.cloud = awos;
-              }
+              this.awos1.cloud = awos;
               break;
             case 23:
-              if (awos == '' || awos == 0) {
-                this.awos1.temp = '/';
-              } else {
-                this.awos1.temp = awos;
-              }
+              this.awos1.temp = awos;
               break;
             //////
             case 33:
-              if (awos == null || awos == 0) {
-                this.awos2.windSpeed1 = '/';
-              } else {
-                this.awos2.windSpeed1 = awos;
-              }
+              this.awos2.windSpeed1 = awos;
               break;
             case 35:
-              if (awos == null || awos == 0) {
-                this.awos2.windSpeed2 = '/';
-              } else {
-                this.awos2.windSpeed2 = awos;
-              }
+              this.awos2.windSpeed2 = awos;
               break;
             case 34:
-              if (awos == null || awos == 0) {
-                this.awos2.windDirection1 = '/';
-              } else {
-                this.awos2.windDirection1 = this.awos1.windDirection1 = Math.round(awos / 10) * 10;
-              }
+              this.awos2.windDirection1 = this.awos1.windDirection1 = Math.round(awos / 10) * 10;
               break;
-            case 36:
-              if (awos == null || awos == 0) {
-                this.awos2.windDirection2 = '/';
-              } else {
-                this.awos2.windDirection2 = this.awos1.windDirection1 = Math.round(awos / 10) * 10;
-              }
+            case 37:
+              this.awos2.windDirection2 = this.awos1.windDirection1 = Math.round(awos / 10) * 10;
               break;
             case 29:
-              if (awos == null || awos == 0) {
-                this.awos2.rvr = '/';
-              } else {
-                this.awos2.rvr = awos;
-              }
+              this.awos2.rvr = awos;
               break;
             case 18:
-            // this.awos2.zdz = awos;
-            // break;
+              this.awos2.zdz = awos;
+              break;
             case 43:
-              if (awos == null || awos == 0) {
-                this.awos2.cloud = '/';
-              } else {
-                this.awos2.cloud = awos;
-              }
+              this.awos2.cloud = awos;
               break;
             case 40:
-              if (awos == null || awos == 0) {
-                this.awos2.temp = '/';
-              } else {
-                this.awos2.temp = awos;
-              }
+              this.awos2.temp = awos;
               break;
             //////
             case 49:
-              if (awos == null || awos == 0) {
-                this.awos3.windSpeed1 = '/';
-              } else {
-                this.awos3.windSpeed1 = awos;
-              }
+              this.awos1.windSpeed1 = awos;
               break;
             case 51:
-              if (awos == null || awos == 0) {
-                this.awos3.windSpeed2 = '/';
-              } else {
-                this.awos3.windSpeed2 = awos;
-              }
+              this.awos3.windSpeed2 = awos;
               break;
             case 50:
-              if (awos == null || awos == 0) {
-                this.awos3.windDirection1 = '/';
-              } else {
-                this.awos3.windDirection1 = this.awos1.windDirection1 = Math.round(awos / 10) * 10;
-              }
+              this.awos3.windDirection1 = this.awos1.windDirection1 = Math.round(awos / 10) * 10;
               break;
             case 52:
-              if (awos == null || awos == 0) {
-                this.awos3.windDirection2 = '/';
-              } else {
-                this.awos3.windDirection2 = this.awos1.windDirection1 = Math.round(awos / 10) * 10;
-              }
+              this.awos3.windDirection2 = this.awos1.windDirection1 = Math.round(awos / 10) * 10;
               break;
             case 45:
-              if (awos == null || awos == 0) {
-                this.awos3.rvr = '/';
-              } else {
-                this.awos3.rvr = awos;
-              }
+              this.awos3.rvr = awos;
               break;
             case 18:
-            // this.awos3.zdz = awos;
-            // break;
+              this.awos3.zdz = awos;
+              break;
             case 59:
-              if (awos == null || awos == 0) {
-                this.awos3.cloud = '/';
-              } else {
-                this.awos3.cloud = awos;
-              }
+              this.awos3.cloud = awos;
               break;
             case 56:
-              if (awos == null || awos == 0) {
-                this.awos3.temp = '/';
-              } else {
-                this.awos3.temp = awos;
-              }
+              this.awos3.temp = awos;
               break;
             default:
               break;
@@ -379,18 +315,7 @@ export default {
         });
       });
     },
-    getForm() {
-      this.getFormData();
-      window.setInterval(() => {
-        setTimeout(this.getFormData(), 0);
-      }, 120000);
-    },
-    getTableList() {
-      this.getMessage();
-      window.setInterval(() => {
-        setTimeout(this.getMessage(), 0);
-      }, 120000);
-    },
+
     getMessage() {
       let para = {
         page: this.page,
@@ -433,7 +358,7 @@ export default {
     },
     handleCurrentChange(val) {
       this.page = val;
-      this.getFormData();
+      this.getFromData();
     },
     onCheckWarning() {
       const audio = document.getElementById('audio');
@@ -453,7 +378,7 @@ export default {
     }
   },
   mounted() {
-    this.getForm();
+    this.getFrom();
     this.getTableList();
   }
 };
