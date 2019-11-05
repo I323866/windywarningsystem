@@ -154,23 +154,23 @@
 </template>
 
 <script>
-import { getUserListPage } from '../../api/api';
-import { getAWOS1 } from '../../api/api';
-import { getAWOSWarning } from '../../api/api';
-import moment from 'moment';
-import windrose1 from '../../components/windrose1';
-import windrose3 from '../../components/windrose3';
-import windrose4 from '../../components/windrose4';
-import windrose from '../../components/windrose';
-import lodash from 'lodash';
+import { getUserListPage } from "../../api/api";
+import { getAWOS1 } from "../../api/api";
+import { getAWOSWarning } from "../../api/api";
+import moment from "moment";
+import windrose1 from "../../components/windrose1";
+import windrose3 from "../../components/windrose3";
+import windrose4 from "../../components/windrose4";
+import windrose from "../../components/windrose";
+import lodash from "lodash";
 
 export default {
   data() {
     return {
       testdata: [],
-      label_position: 'left',
+      label_position: "left",
       filters: {
-        name: ''
+        name: ""
       },
       warning: [],
       total: 0,
@@ -178,34 +178,34 @@ export default {
       listLoading: false,
       sels: [], //列表选中列
       awos1: {
-        windSpeed1: '',
-        windSpeed2: '',
-        windDirection1: '',
-        windDirection2: '',
-        rvr: '',
-        temp: '',
-        cloud: '',
-        zdz: ''
+        windSpeed1: "",
+        windSpeed2: 0,
+        windDirection1: "",
+        windDirection2: 0,
+        rvr: "",
+        temp: "",
+        cloud: "",
+        zdz: ""
       },
       awos3: {
-        windSpeed1: '',
-        windSpeed2: '',
-        windDirection1: '',
-        windDirection2: '',
-        rvr: '',
-        temp: '',
-        cloud: '',
-        zdz: ''
+        windSpeed1: "",
+        windSpeed2: "",
+        windDirection1: "",
+        windDirection2: "",
+        rvr: "",
+        temp: "",
+        cloud: "",
+        zdz: ""
       },
       awos2: {
-        windSpeed1: '',
-        windSpeed2: '',
-        windDirection1: '',
-        windDirection2: '',
-        rvr: '',
-        temp: '',
-        cloud: '',
-        zdz: ''
+        windSpeed1: "",
+        windSpeed2: "",
+        windDirection1: "",
+        windDirection2: "",
+        rvr: "",
+        temp: "",
+        cloud: "",
+        zdz: ""
       },
       form: {
         windSpeed1: 1,
@@ -227,160 +227,170 @@ export default {
   },
   methods: {
     //获取数据列表
-    getFormData() {
+    async getFormData() {
       let para = {
         page: this.page,
         name: this.filters.name
       };
-      getAWOS1(para).then(res => {
-        res.data.rows[0].forEach((awos, index) => {
-          switch (index) {
-            case 15:
-              this.awos1.windSpeed1 = awos;
-              break;
-            case 17:
-              this.awos1.windSpeed2 = awos;
-              break;
-            case 16:
-              this.awos1.windDirection1 = Math.round(awos / 10) * 10;
-              break;
-            case 18:
-              this.awos1.windDirection2 = this.awos1.windDirection1 = Math.round(awos / 10) * 10;
-              break;
-            case 11:
-              this.awos1.rvr = awos;
-              break;
-            case 0:
-              // this.awos1.zdz = awos;
-              break;
-            case 27:
-              if (awos == null || awos == 0) {
-                this.awos1.cloud = '/';
-              } else {
-                this.awos1.cloud = awos;
-              }
-              break;
-            case 23:
-              if (awos == '' || awos == 0) {
-                this.awos1.temp = '/';
-              } else {
-                this.awos1.temp = awos;
-              }
-              break;
-            //////
-            case 33:
-              if (awos == null || awos == 0) {
-                this.awos2.windSpeed1 = '/';
-              } else {
-                this.awos2.windSpeed1 = awos;
-              }
-              break;
-            case 35:
-              if (awos == null || awos == 0) {
-                this.awos2.windSpeed2 = '/';
-              } else {
-                this.awos2.windSpeed2 = awos;
-              }
-              break;
-            case 34:
-              if (awos == null || awos == 0) {
-                this.awos2.windDirection1 = '/';
-              } else {
-                this.awos2.windDirection1 = this.awos1.windDirection1 = Math.round(awos / 10) * 10;
-              }
-              break;
-            case 36:
-              if (awos == null || awos == 0) {
-                this.awos2.windDirection2 = '/';
-              } else {
-                this.awos2.windDirection2 = this.awos1.windDirection1 = Math.round(awos / 10) * 10;
-              }
-              break;
-            case 29:
-              if (awos == null || awos == 0) {
-                this.awos2.rvr = '/';
-              } else {
-                this.awos2.rvr = awos;
-              }
-              break;
-            case 18:
-            // this.awos2.zdz = awos;
-            // break;
-            case 43:
-              if (awos == null || awos == 0) {
-                this.awos2.cloud = '/';
-              } else {
-                this.awos2.cloud = awos;
-              }
-              break;
-            case 40:
-              if (awos == null || awos == 0) {
-                this.awos2.temp = '/';
-              } else {
-                this.awos2.temp = awos;
-              }
-              break;
-            //////
-            case 49:
-              if (awos == null || awos == 0) {
-                this.awos3.windSpeed1 = '/';
-              } else {
-                this.awos3.windSpeed1 = awos;
-              }
-              break;
-            case 51:
-              if (awos == null || awos == 0) {
-                this.awos3.windSpeed2 = '/';
-              } else {
-                this.awos3.windSpeed2 = awos;
-              }
-              break;
-            case 50:
-              if (awos == null || awos == 0) {
-                this.awos3.windDirection1 = '/';
-              } else {
-                this.awos3.windDirection1 = this.awos1.windDirection1 = Math.round(awos / 10) * 10;
-              }
-              break;
-            case 52:
-              if (awos == null || awos == 0) {
-                this.awos3.windDirection2 = '/';
-              } else {
-                this.awos3.windDirection2 = this.awos1.windDirection1 = Math.round(awos / 10) * 10;
-              }
-              break;
-            case 45:
-              if (awos == null || awos == 0) {
-                this.awos3.rvr = '/';
-              } else {
-                this.awos3.rvr = awos;
-              }
-              break;
-            case 18:
-            // this.awos3.zdz = awos;
-            // break;
-            case 59:
-              if (awos == null || awos == 0) {
-                this.awos3.cloud = '/';
-              } else {
-                this.awos3.cloud = awos;
-              }
-              break;
-            case 56:
-              if (awos == null || awos == 0) {
-                this.awos3.temp = '/';
-              } else {
-                this.awos3.temp = awos;
-              }
-              break;
-            default:
-              break;
-          }
-        });
+      var res = await getAWOS1(para);
+      console.log(res);
+      // getAWOS1(para).then(res => {
+      res.data.AWOS1[0].forEach((awos, index) => {
+        switch (index) {
+          case 15:
+            this.awos1.windSpeed1 = awos;
+            break;
+          case 17:
+            this.awos1.windSpeed2 = awos;
+            break;
+          case 16:
+            this.awos1.windDirection1 = Math.round(awos / 10) * 10;
+            break;
+          case 18:
+            this.awos1.windDirection2 = this.awos1.windDirection1 =
+              Math.round(awos / 10) * 10;
+            break;
+          case 11:
+            this.awos1.rvr = awos;
+            break;
+          case 0:
+            // this.awos1.zdz = awos;
+            break;
+          case 27:
+            if (awos == null || awos == 0) {
+              this.awos1.cloud = "/";
+            } else {
+              this.awos1.cloud = awos;
+            }
+            break;
+          case 23:
+            if (awos == "" || awos == 0) {
+              this.awos1.temp = "/";
+            } else {
+              this.awos1.temp = awos;
+            }
+            break;
+          //////
+          case 33:
+            if (awos == null || awos == 0) {
+              this.awos2.windSpeed1 = "/";
+            } else {
+              this.awos2.windSpeed1 = awos;
+            }
+            break;
+          case 35:
+            if (awos == null || awos == 0) {
+              this.awos2.windSpeed2 = "/";
+            } else {
+              this.awos2.windSpeed2 = awos;
+            }
+            break;
+          case 34:
+            if (awos == null || awos == 0) {
+              this.awos2.windDirection1 = "/";
+            } else {
+              this.awos2.windDirection1 = this.awos1.windDirection1 =
+                Math.round(awos / 10) * 10;
+            }
+            break;
+          case 36:
+            if (awos == null || awos == 0) {
+              this.awos2.windDirection2 = "/";
+            } else {
+              this.awos2.windDirection2 = this.awos1.windDirection1 =
+                Math.round(awos / 10) * 10;
+            }
+            break;
+          case 29:
+            if (awos == null || awos == 0) {
+              this.awos2.rvr = "/";
+            } else {
+              this.awos2.rvr = awos;
+            }
+            break;
+          case 18:
+          // this.awos2.zdz = awos;
+          // break;
+          case 43:
+            if (awos == null || awos == 0) {
+              this.awos2.cloud = "/";
+            } else {
+              this.awos2.cloud = awos;
+            }
+            break;
+          case 40:
+            if (awos == null || awos == 0) {
+              this.awos2.temp = "/";
+            } else {
+              this.awos2.temp = awos;
+            }
+            break;
+          //////
+          case 49:
+            if (awos == null || awos == 0) {
+              this.awos3.windSpeed1 = "/";
+            } else {
+              this.awos3.windSpeed1 = awos;
+            }
+            break;
+          case 51:
+            if (awos == null || awos == 0) {
+              this.awos3.windSpeed2 = "/";
+            } else {
+              this.awos3.windSpeed2 = awos;
+            }
+            break;
+          case 50:
+            if (awos == null || awos == 0) {
+              this.awos3.windDirection1 = "/";
+            } else {
+              this.awos3.windDirection1 = this.awos1.windDirection1 =
+                Math.round(awos / 10) * 10;
+            }
+            break;
+          case 52:
+            if (awos == null || awos == 0) {
+              this.awos3.windDirection2 = "/";
+            } else {
+              this.awos3.windDirection2 = this.awos1.windDirection1 =
+                Math.round(awos / 10) * 10;
+            }
+            break;
+          case 45:
+            if (awos == null || awos == 0) {
+              this.awos3.rvr = "/";
+            } else {
+              this.awos3.rvr = awos;
+            }
+            break;
+          case 18:
+          // this.awos3.zdz = awos;
+          // break;
+          case 59:
+            if (awos == null || awos == 0) {
+              this.awos3.cloud = "/";
+            } else {
+              this.awos3.cloud = awos;
+            }
+            break;
+          case 56:
+            if (awos == null || awos == 0) {
+              this.awos3.temp = "/";
+            } else {
+              this.awos3.temp = awos;
+            }
+            break;
+          default:
+            break;
+        }
+
+        console.log(this.awos1.windSpeed2);
+        // });
       });
     },
     getForm() {
       this.getFormData();
+
       window.setInterval(() => {
         setTimeout(this.getFormData(), 0);
       }, 120000);
@@ -402,14 +412,14 @@ export default {
         if (res.data) {
           const data = res.data;
           const AWOSwarnings = [];
-          that.warning = lodash.unionBy(that.warning, data, 'time');
+          that.warning = lodash.unionBy(that.warning, data, "time");
 
           data.forEach(data => {
             if (
-              data.priority == '风向趋势告警' ||
-              data.priority == '风速趋势告警' ||
-              data.priority == '阵风告警' ||
-              data.priority == '大风告警'
+              data.priority == "风向趋势告警" ||
+              data.priority == "风速趋势告警" ||
+              data.priority == "阵风告警" ||
+              data.priority == "大风告警"
             ) {
               this.onCheckWarning();
             }
@@ -436,25 +446,31 @@ export default {
       this.getFormData();
     },
     onCheckWarning() {
-      const audio = document.getElementById('audio');
+      const audio = document.getElementById("audio");
       audio.play();
     },
     tableRowClassName(row, rowIndex) {
-      if (row.priority == '风向趋势告警') {
-        return 'error-row';
+      if (row.priority == "风向趋势告警") {
+        return "error-row";
       }
-      if (row.priority == '橙色告警') {
-        return 'warning-row';
-      }
-      if (row.priority == '黄色告警') {
-        return 'normal-row';
-      }
-      return '';
+      return "";
     }
   },
-  mounted() {
-    this.getForm();
-    this.getTableList();
+  async created() {
+    this.$nextTick(async () => {
+      this.getForm();
+    });
+    await this.getTableList();
+  },
+  watch: {
+    "awos1.windSpeed2": {
+      handler(newValue, oldValue) {
+        this.$nextTick(() => {
+          this.awos1.windSpeed2 = newValue
+          console.log(this.awos1.windSpeed2)
+        });
+      }
+    }
   }
 };
 </script>
