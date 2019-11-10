@@ -33,7 +33,7 @@ let routes = [
     name: '跑道AWOS',
     // iconCls: 'fa fa-id-card-o',//图标样式class
     children: [
-      { path: '/monitor1', component: monitor1, name: '虹桥机场跑道1' },
+      { path: '/monitor1', component: Table, name: '虹桥机场跑道1' },
       { path: '/monitor2', component: monitor, name: '虹桥机场跑道2' }
 
       // { path: '/table', component: Table, name: 'Table' },

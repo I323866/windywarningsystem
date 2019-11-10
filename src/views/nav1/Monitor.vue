@@ -7,7 +7,7 @@
             <div class="grid-content">
               <el-col :span="8">
                 <div class="grid-content">
-                  <windrose1 :speed="awos1.windSpeed2" :dire="awos1.windDirection2"></windrose1>
+                  <windrose1 :speed="speed1" :dire="direction1" :title="title1"></windrose1>
                   <el-form :label-position="label_position" label-width="80px" :model="form">
                     <el-form-item label="风速2A">
                       <el-input v-model="awos1.windSpeed1"></el-input>
@@ -35,7 +35,7 @@
               </el-col>
               <el-col :span="8">
                 <div class="grid-content">
-                  <windrose3></windrose3>
+                  <windrose1 :speed="speed2" :dire="direction2" :title="title2"></windrose1>
                   <el-form :label-position="label_position" label-width="80px" :model="form">
                     <el-form-item label="风速2A">
                       <el-input v-model="awos2.windSpeed1"></el-input>
@@ -63,7 +63,7 @@
               </el-col>
               <el-col :span="8">
                 <div class="grid-content">
-                  <windrose4></windrose4>
+                  <windrose1 :speed="speed3" :dire="direction3" :title="title3"></windrose1>
                   <el-form :label-position="label_position" label-width="80px" :model="form">
                     <el-form-item label="风速2A">
                       <el-input v-model="awos3.windSpeed1"></el-input>
@@ -105,13 +105,16 @@
                 <el-input v-model="filters.name" placeholder="搜索"></el-input>
               </el-form-item>-->
               <el-form-item>
-                <el-button size="small" class="button" v-on:click="updateWarning(1)">不再提醒</el-button>
+                <el-button size="small" class="button" v-on:click="updateRemind(1)">24小时后提醒</el-button>
               </el-form-item>
               <el-form-item>
-                <el-button size="small" class="button" @click="updateWarning(2)">两小时后提醒</el-button>
+                <el-button size="small" class="button" @click="updateRemind(2)">2小时后提醒</el-button>
               </el-form-item>
               <el-form-item>
-                <el-button size="small" class="button" @click="updateWarning(3)">四小时后提醒</el-button>
+                <el-button size="small" class="button" @click="updateRemind(3)">4小时后提醒</el-button>
+              </el-form-item>
+              <el-form-item>
+                <el-button size="small" class="button" @click="updateRemind(4)">回复提醒</el-button>
               </el-form-item>
             </el-form>
           </el-col>
@@ -120,17 +123,18 @@
           <el-table
             :data="warning"
             height="700"
-            highlight-current-row
             v-loading="listLoading"
             style="width: 100% height: 90%;"
             :row-class-name="tableRowClassName"
+            @selection-change="selsChange"
           >
             <!--            stripe-->
             <el-table-column type="selection" width="55"></el-table-column>
             <!--            <el-table-column type="index" width="60"></el-table-column>-->
-            <el-table-column prop="time" label="时间" width min-width="40%"></el-table-column>
-            <el-table-column prop="priority" label="告警类别" min-width="10%" width="120"></el-table-column>
-            <el-table-column prop="message" label="告警内容" min-width="50%"></el-table-column>
+            <el-table-column prop="createOn" label="时间" ></el-table-column>
+            <el-table-column prop="categortype" label="告警类别" ></el-table-column>
+            <el-table-column prop="content" label="告警内容" ></el-table-column>
+            <el-table-column prop="changeOn" label="再次提醒时间" ></el-table-column>
           </el-table>
           <el-col :span="24" class="toolbar">
             <el-pagination
@@ -154,7 +158,8 @@
 </template>
 
 <script>
-import { getUserListPage } from "../../api/api";
+import { updateRemind } from "../../api/api";
+import { deleteRemind } from "../../api/api";
 import { getAWOS1 } from "../../api/api";
 import { getAWOSWarning } from "../../api/api";
 import moment from "moment";
@@ -172,6 +177,9 @@ export default {
       filters: {
         name: ""
       },
+      title1: "18R",
+      title2: "MID",
+      title3: "36L",
       warning: [],
       total: 0,
       page: 1,
@@ -215,6 +223,12 @@ export default {
         windSpeed3: 1,
         windDirection3: 2
       },
+      speed1: 0,
+      direction1: 0,
+      speed2: 0,
+      direction2: 0,
+      speed3: 0,
+      direction3: 0,
       editFormVisible: false, //编辑界面是否显示
       editLoading: false
     };
@@ -242,6 +256,7 @@ export default {
             break;
           case 17:
             this.awos1.windSpeed2 = awos;
+            this.speed1 = this.awos1.windSpeed2 == null ? 0 : awos;
             break;
           case 16:
             this.awos1.windDirection1 = Math.round(awos / 10) * 10;
@@ -249,6 +264,8 @@ export default {
           case 18:
             this.awos1.windDirection2 = this.awos1.windDirection1 =
               Math.round(awos / 10) * 10;
+            this.direction1 =
+              this.awos1.windDirection2 == null ? 0 : this.awos1.windDirection2;
             break;
           case 11:
             this.awos1.rvr = awos;
@@ -270,7 +287,7 @@ export default {
               this.awos1.temp = awos;
             }
             break;
-          //////
+          //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
           case 33:
             if (awos == null || awos == 0) {
               this.awos2.windSpeed1 = "/";
@@ -281,16 +298,20 @@ export default {
           case 35:
             if (awos == null || awos == 0) {
               this.awos2.windSpeed2 = "/";
+              this.speed2 = 0;
             } else {
               this.awos2.windSpeed2 = awos;
+              this.speed2 = awos;
             }
             break;
           case 34:
             if (awos == null || awos == 0) {
               this.awos2.windDirection1 = "/";
+              this.direction2 = 0;
             } else {
               this.awos2.windDirection1 = this.awos1.windDirection1 =
                 Math.round(awos / 10) * 10;
+              this.direction2 = this.awos2.windDirection1;
             }
             break;
           case 36:
@@ -325,7 +346,7 @@ export default {
               this.awos2.temp = awos;
             }
             break;
-          //////
+          ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
           case 49:
             if (awos == null || awos == 0) {
               this.awos3.windSpeed1 = "/";
@@ -336,16 +357,20 @@ export default {
           case 51:
             if (awos == null || awos == 0) {
               this.awos3.windSpeed2 = "/";
+              this.speed3 = 0;
             } else {
               this.awos3.windSpeed2 = awos;
+              this.speed3 = this.awos3.windSpeed2;
             }
             break;
           case 50:
             if (awos == null || awos == 0) {
               this.awos3.windDirection1 = "/";
+              this.direction3 = 0;
             } else {
               this.awos3.windDirection1 = this.awos1.windDirection1 =
                 Math.round(awos / 10) * 10;
+              this.direction3 = this.awos3.windDirection1;
             }
             break;
           case 52:
@@ -383,9 +408,6 @@ export default {
           default:
             break;
         }
-
-        console.log(this.awos1.windSpeed2);
-        // });
       });
     },
     getForm() {
@@ -412,34 +434,47 @@ export default {
         if (res.data) {
           const data = res.data;
           const AWOSwarnings = [];
-          that.warning = lodash.unionBy(that.warning, data, "time");
+          that.warning = data;
 
           data.forEach(data => {
-            if (
-              data.priority == "风向趋势告警" ||
-              data.priority == "风速趋势告警" ||
-              data.priority == "阵风告警" ||
-              data.priority == "大风告警"
-            ) {
-              this.onCheckWarning();
-            }
+            this.onCheckWarning();
           });
         }
       });
 
       this.listLoading = false;
     },
-    updateWarning(para) {
+    async updateRemind  (para) {
+      var ids = this.sels.map(item => item.category);
+      let hours = 0;
       switch (para) {
         case 1:
+          hours = 24;
           break;
         case 2:
+          hours = 2;
           break;
         case 3:
+          hours = 4;
+          break;
+        case 4:
           break;
         default:
           break;
       }
+      let postpone2hours = moment()
+        .add(hours, "hours")
+        .format("YYYY-MM-DD HH:mm"); //当前时间的前24小时
+      ids.forEach(id => {
+        if (para == 4) {
+          const callback1 = deleteRemind(id);
+          const that = this
+          callback1.then(this.getMessage())
+        } else {
+          const callback2 = updateRemind(id, { updatetime: postpone2hours, type: hours })
+          callback2.then(this.getMessage())
+        }
+      });
     },
     handleCurrentChange(val) {
       this.page = val;
@@ -450,10 +485,14 @@ export default {
       audio.play();
     },
     tableRowClassName(row, rowIndex) {
-      if (row.priority == "风向趋势告警") {
+      if (row.color == "red") {
         return "error-row";
+      } else if (row.color == "yellow") {
+        return "warning-row";
       }
-      return "";
+    },
+    selsChange: function(sels) {
+      this.sels = sels;
     }
   },
   async created() {
@@ -466,8 +505,21 @@ export default {
     "awos1.windSpeed2": {
       handler(newValue, oldValue) {
         this.$nextTick(() => {
-          this.awos1.windSpeed2 = newValue
-          console.log(this.awos1.windSpeed2)
+          this.awos1.windSpeed2 = newValue;
+        });
+      }
+    },
+    "awos2.windSpeed2": {
+      handler(newValue, oldValue) {
+        this.$nextTick(() => {
+          this.awos2.windSpeed2 = newValue;
+        });
+      }
+    },
+    "awos3.windSpeed2": {
+      handler(newValue, oldValue) {
+        this.$nextTick(() => {
+          this.awos3.windSpeed2 = newValue;
         });
       }
     }
@@ -486,5 +538,8 @@ export default {
 }
 .button {
   background: #d5dfe9;
+}
+.el-table .cell {
+  white-space: pre-line;
 }
 </style>

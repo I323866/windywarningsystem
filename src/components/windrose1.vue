@@ -7,7 +7,8 @@ export default {
   name: "t5",
   props: {
     speed: Number,
-    dire: Number
+    dire: Number,
+    title:String
   },
   data() {
     return {
@@ -53,7 +54,7 @@ export default {
         series: [
           {
             data: windDataJSON,
-            name: "18R"
+            name: this.title
           }
         ],
         chart: {
