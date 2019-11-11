@@ -131,10 +131,10 @@
             <!--            stripe-->
             <el-table-column type="selection" width="55"></el-table-column>
             <!--            <el-table-column type="index" width="60"></el-table-column>-->
-            <el-table-column prop="createOn" label="时间" ></el-table-column>
-            <el-table-column prop="categortype" label="告警类别" ></el-table-column>
-            <el-table-column prop="content" label="告警内容" ></el-table-column>
-            <el-table-column prop="changeOn" label="再次提醒时间" ></el-table-column>
+            <el-table-column prop="createOn" label="时间"></el-table-column>
+            <el-table-column prop="categortype" label="告警类别"></el-table-column>
+            <el-table-column prop="content" label="告警内容"></el-table-column>
+            <el-table-column prop="changeOn" label="再次提醒时间"></el-table-column>
           </el-table>
           <el-col :span="24" class="toolbar">
             <el-pagination
@@ -437,14 +437,16 @@ export default {
           that.warning = data;
 
           data.forEach(data => {
-            this.onCheckWarning();
+            if ((data.color == "red")) {
+              this.onCheckWarning();
+            }
           });
         }
       });
 
       this.listLoading = false;
     },
-    async updateRemind  (para) {
+    async updateRemind(para) {
       var ids = this.sels.map(item => item.category);
       let hours = 0;
       switch (para) {
@@ -465,16 +467,17 @@ export default {
       let postpone2hours = moment()
         .add(hours, "hours")
         .format("YYYY-MM-DD HH:mm"); //当前时间的前24小时
-      ids.forEach(id => {
+      ids = _.uniq(ids);
+      for (let index = 0; index < ids.length; index++) {
+        const id = ids[index];
         if (para == 4) {
-          const callback1 = deleteRemind(id);
-          const that = this
-          callback1.then(this.getMessage())
+          const callback1 = await deleteRemind(id);
+          this.getMessage();
         } else {
-          const callback2 = updateRemind(id, { updatetime: postpone2hours, type: hours })
-          callback2.then(this.getMessage())
+          await updateRemind(id, { updatetime: postpone2hours, type: hours });
+          this.getMessage();
         }
-      });
+      }
     },
     handleCurrentChange(val) {
       this.page = val;
